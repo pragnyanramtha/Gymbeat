@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { Dumbbell, Activity, ShieldPlus, ArrowRight, HeartPulse, Check, Mail, Phone, MapPin, Play } from "lucide-react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, Variants } from "framer-motion";
+import { m, LazyMotion, domAnimation, useScroll, useTransform, Variants } from "framer-motion";
 
 const revealUp: Variants = {
   hidden: { opacity: 0, y: 50 },
@@ -21,8 +21,9 @@ const staggerContainer: Variants = {
 };
 
 export default function Home() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef });
+  const { scrollYProgress } = useScroll({
+    offset: ["start start", "end end"]
+  });
 
   // Parallax effects
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
@@ -30,10 +31,11 @@ export default function Home() {
   const scaleImage = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
   return (
-    <div className="bg-[#0a0a0a] min-h-screen text-white font-body overflow-x-hidden noise-bg" ref={containerRef}>
+    <LazyMotion features={domAnimation} strict>
+    <div className="bg-[#0a0a0a] min-h-screen text-white font-body overflow-x-hidden noise-bg">
 
       {/* Floating Navbar */}
-      <motion.nav
+      <m.nav
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
@@ -67,22 +69,22 @@ export default function Home() {
           </a>
         </div>
 
-        <motion.a
+        <m.a
           whileHover={{ scale: 1.02, backgroundColor: "#FF5500", color: "#0a0a0a" }}
           whileTap={{ scale: 0.98 }}
           href="#pricing"
           className="bg-[#FF5500] text-[#0a0a0a] px-8 py-3.5 font-heading font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-300 transform -skew-x-12 shadow-[0_0_30px_rgba(255,85,0,0.3)] hover:shadow-[0_0_50px_rgba(255,85,0,0.5)]"
         >
           <span className="block transform skew-x-12">Join Now</span>
-        </motion.a>
-      </motion.nav>
+        </m.a>
+      </m.nav>
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-24">
         {/* Background Image with Parallax */}
-        <motion.div
+        <m.div
           style={{ y: heroY, scale: scaleImage }}
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 will-change-transform"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-transparent to-[#0a0a0a] z-10" />
@@ -90,47 +92,49 @@ export default function Home() {
             src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop"
             alt="Gym Background"
             fill
-            className="object-cover opacity-60 mix-blend-luminosity"
+            sizes="100vw"
+            quality={60}
+            className="object-cover opacity-60 grayscale"
             priority
           />
-        </motion.div>
+        </m.div>
 
         {/* Dynamic Abstract Shapes */}
-        <motion.div
+        <m.div
           animate={{ rotate: 360 }}
           transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] border border-[#FF5500]/20 rounded-full z-0 pointer-events-none border-dashed"
+          className="absolute top-1/4 -right-1/4 w-[800px] h-[800px] border border-[#FF5500]/20 rounded-full z-0 pointer-events-none border-dashed will-change-transform"
         />
 
-        <motion.div
+        <m.div
           style={{ opacity: heroOpacity }}
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
           className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col items-start text-left"
         >
-          <motion.div variants={revealUp} className="mb-6 inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_0_15px_rgba(255,255,255,0.05)]">
+          <m.div variants={revealUp} className="mb-6 inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-[0_0_15px_rgba(255,255,255,0.05)]">
             <span className="w-2 h-2 rounded-full bg-[#FF5500] animate-pulse" />
             <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-neutral-300">Elite Performance Center</span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             variants={revealUp}
             className="font-heading text-6xl md:text-8xl lg:text-[10rem] font-black leading-[0.85] tracking-tighter mb-8"
           >
             <span className="block text-white hover:text-[#00E5FF] transition-colors duration-300">FORGE.</span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#FF5500] to-[#FF8C00] pb-2">ELEVATE.</span>
             <span className="block text-white/40 hover:text-white transition-colors duration-500">DOMINATE.</span>
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             variants={revealUp}
             className="text-lg md:text-xl text-neutral-400 mb-10 max-w-xl font-body leading-relaxed"
           >
             Experience the ultimate fitness transformation. Elite coaching, state-of-the-art equipment, and a high-voltage community that pushes you beyond your limits.
-          </motion.p>
+          </m.p>
 
-          <motion.div variants={revealUp} className="flex flex-col sm:flex-row items-center gap-8 w-full md:w-auto">
+          <m.div variants={revealUp} className="flex flex-col sm:flex-row items-center gap-8 w-full md:w-auto">
             <div className="relative group">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FF5500] to-[#00E5FF] rounded-lg blur opacity-30 group-hover:opacity-100 transition duration-500 group-hover:duration-200 animate-pulse"></div>
               <a
@@ -150,33 +154,33 @@ export default function Home() {
                <span className="text-[15px] font-heading font-bold text-white uppercase tracking-widest mt-1">5 AM - 10 AM</span>
                <span className="text-[15px] font-heading font-bold text-white uppercase tracking-widest leading-none">&amp; 5 PM - 10 PM</span>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
         {/* Scroll Indicator */}
-        <motion.div
+        <m.div
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           className="absolute bottom-10 right-10 flex flex-col items-center gap-2 z-10 opacity-50 hidden lg:flex"
         >
           <span className="text-[10px] uppercase tracking-widest transform -rotate-90 origin-bottom mb-8">Scroll</span>
           <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent" />
-        </motion.div>
+        </m.div>
       </section>
 
       {/* Dynamic Video / Action Banner */}
       <section className="py-24 relative overflow-hidden bg-[#FF5500]">
-        <motion.div
+        <m.div
           initial={{ x: "100%" }}
           whileInView={{ x: "-100%" }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="whitespace-nowrap flex items-center gap-8 text-[8rem] font-heading font-bold uppercase leading-none opacity-20 text-black pointer-events-none"
+          className="whitespace-nowrap flex items-center gap-8 text-[8rem] font-heading font-bold uppercase leading-none opacity-20 text-black pointer-events-none will-change-transform"
         >
           <span>NO EXCUSES</span> <span>•</span> <span>PUSH LIMITS</span> <span>•</span> <span>GRIND DAILY</span> <span>•</span> <span>NO EXCUSES</span>
-        </motion.div>
+        </m.div>
 
         <div className="absolute inset-0 flex items-center justify-center z-10 px-6">
-          <motion.div
+          <m.div
             initial={{ scale: 0.9, opacity: 0 }}
             whileInView={{ scale: 1, opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -189,7 +193,7 @@ export default function Home() {
             <p className="text-[#0a0a0a]/80 text-xl font-bold max-w-2xl mx-auto">
               Our high-intensity sessions are designed to keep your metabolism elevated long after you leave the floor.
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -197,7 +201,7 @@ export default function Home() {
       <section id="features" className="py-32 px-6 relative">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
-            <motion.div
+            <m.div
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealUp}
               className="max-w-2xl"
             >
@@ -205,13 +209,13 @@ export default function Home() {
               <h3 className="text-5xl md:text-7xl font-heading font-bold uppercase leading-[0.9]">
                 Master <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-600">Your Body</span>
               </h3>
-            </motion.div>
-            <motion.p
+            </m.div>
+            <m.p
               initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealUp}
               className="text-neutral-400 max-w-md text-lg border-l-2 border-[#FF5500] pl-6"
             >
               We focus on real results through four essential pillars of physical excellence and longevity. No gimmicks.
-            </motion.p>
+            </m.p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -221,7 +225,7 @@ export default function Home() {
               { title: "Longevity", icon: HeartPulse, desc: "Improve cardiovascular endurance and enhance daily energy levels.", img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop" },
               { title: "Bulletproof", icon: ShieldPlus, desc: "Protect against lifestyle diseases through consistent, brutal conditioning.", img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=1469&auto=format&fit=crop" },
             ].map((feature, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -231,7 +235,7 @@ export default function Home() {
                 className="group relative h-[450px] overflow-hidden bg-[#111] transform -skew-x-2 border border-white/5"
               >
                 <div className="absolute inset-0 z-0">
-                  <Image src={feature.img} alt={feature.title} fill className="object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500 group-hover:scale-110 ease-out grayscale group-hover:grayscale-0 mix-blend-luminosity" />
+                  <Image src={feature.img} alt={feature.title} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw" quality={60} className="object-cover opacity-30 group-hover:opacity-50 transition-opacity duration-500 group-hover:scale-110 ease-out grayscale group-hover:grayscale-0" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
                 </div>
 
@@ -243,7 +247,7 @@ export default function Home() {
                   <p className="text-neutral-400 text-sm leading-relaxed mb-4">{feature.desc}</p>
                   <div className="h-[2px] w-0 bg-[#00E5FF] group-hover:w-full transition-all duration-500 ease-out" />
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -255,7 +259,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[#111] transform -skew-y-3 origin-top-right -z-10" />
 
         <div className="max-w-7xl mx-auto">
-          <motion.div
+          <m.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealUp}
             className="text-center mb-24"
           >
@@ -263,7 +267,7 @@ export default function Home() {
             <h3 className="text-5xl md:text-7xl font-heading font-bold uppercase leading-[0.9]">
               Choose Your <span className="text-[#00E5FF]">Commitment</span>
             </h3>
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -272,7 +276,7 @@ export default function Home() {
               { duration: "6 Months", price: "1.5k", period: "rs/month", pop: false, note: "Billed as ₹9k total" },
               { duration: "1 Year", price: "1k", period: "rs/month", pop: true, note: "Billed as ₹12k total" },
             ].map((plan, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -321,7 +325,7 @@ export default function Home() {
                     <span className="block">Select Plan</span>
                   </a>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -330,7 +334,7 @@ export default function Home() {
       {/* Branches Locations Section */}
       <section id="locations" className="py-32 px-6 relative bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto">
-          <motion.div
+          <m.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealUp}
             className="text-center mb-20"
           >
@@ -338,7 +342,7 @@ export default function Home() {
             <h3 className="text-5xl md:text-7xl font-heading font-bold uppercase leading-[0.9]">
               Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-600">Studios</span>
             </h3>
-          </motion.div>
+          </m.div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -355,7 +359,7 @@ export default function Home() {
                 address: "Second Floor, Mithila Square, 202, Mithila Nagar, Pragathi Nagar, Hyderabad, Telangana 500050"
               }
             ].map((branch, i) => (
-              <motion.div
+              <m.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -368,7 +372,7 @@ export default function Home() {
                 </div>
                 <h4 className="font-heading text-2xl font-bold uppercase mb-4 text-white group-hover:text-[#00E5FF] transition-colors">{branch.name}</h4>
                 <p className="text-neutral-400 text-sm leading-relaxed">{branch.address}</p>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>
@@ -378,24 +382,24 @@ export default function Home() {
       <section id="contact" className="py-32 px-6 relative border-t border-white/5 bg-[#050505]">
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
 
-          <motion.div
+          <m.div
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
             className="flex-1 w-full"
           >
-            <motion.h2 variants={revealUp} className="text-sm text-[#00E5FF] font-bold tracking-widest uppercase mb-4">No Excuses</motion.h2>
-            <motion.h3 variants={revealUp} className="text-5xl md:text-7xl font-heading font-black uppercase mb-8 leading-[0.9]">
+            <m.h2 variants={revealUp} className="text-sm text-[#00E5FF] font-bold tracking-widest uppercase mb-4">No Excuses</m.h2>
+            <m.h3 variants={revealUp} className="text-5xl md:text-7xl font-heading font-black uppercase mb-8 leading-[0.9]">
               Start Your <br /> <span className="text-[#FF5500]">Journey</span>
-            </motion.h3>
-            <motion.p variants={revealUp} className="text-neutral-400 mb-12 max-w-md text-lg leading-relaxed">
+            </m.h3>
+            <m.p variants={revealUp} className="text-neutral-400 mb-12 max-w-md text-lg leading-relaxed">
               Drop by our facility or request a callback to secure your membership and plan your first day of transformation.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={staggerContainer} className="space-y-8">
+            <m.div variants={staggerContainer} className="space-y-8">
               {[
                 { icon: MapPin, label: "HQ Location", text: "Gymbeat Multi Fitness Studio" },
                 { icon: Phone, label: "Direct Line", text: "+91 91330 26279" }
               ].map((item, i) => (
-                <motion.div key={i} variants={revealUp} className="flex items-center gap-6 group">
+                <m.div key={i} variants={revealUp} className="flex items-center gap-6 group">
                   <div className="w-14 h-14 shrink-0 bg-white/5 border border-white/10 flex items-center justify-center rounded-lg group-hover:bg-[#FF5500] group-hover:border-[#FF5500] transition-colors duration-300">
                     <item.icon className="w-5 h-5 text-white group-hover:text-[#0a0a0a]" />
                   </div>
@@ -403,12 +407,12 @@ export default function Home() {
                     <h4 className="text-[10px] font-bold text-neutral-500 uppercase tracking-widest mb-1">{item.label}</h4>
                     <p className="font-heading font-bold text-lg uppercase tracking-wide group-hover:text-[#00E5FF] transition-colors">{item.text}</p>
                   </div>
-                </motion.div>
+                </m.div>
               ))}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -440,7 +444,7 @@ export default function Home() {
                 </form>
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
         </div>
       </section>
@@ -461,5 +465,6 @@ export default function Home() {
         </div>
       </footer>
     </div>
+    </LazyMotion>
   );
 }
