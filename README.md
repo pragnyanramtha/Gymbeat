@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GYMBEAT — Multi Fitness Studio
 
-## Getting Started
+> **Build Muscle. Lose Weight. Avoid Diseases.**
 
-First, run the development server:
+GYMBEAT is a high-performance landing page for a multi-fitness studio based in Hyderabad, India. Built with a bold, dark aesthetic and smooth animations, it showcases the studio's programs, membership pricing, branch locations, and a callback request form — all in a single, fast-loading page.
+
+---
+
+## ✨ Features
+
+- **Animated Floating Navbar** — fixed top navigation with smooth entrance animation and active hover underlines
+- **Hero Section** — full-screen parallax background with outcome-driven headlines and gym timings
+- **Action Banner** — scrolling marquee strip with motivational copy
+- **Training Pillars** — four-column grid highlighting Burn Fat, Build Muscle, Longevity, and Bulletproof conditioning
+- **Pricing Section** — four membership tiers (1 month → 1 year) with clear per-month pricing in INR
+- **Studio Locations** — three branch cards (Manikonda, Kukatpally, Pragathi Nagar) with full addresses
+- **Contact / Callback Form** — name + phone request form alongside direct contact details
+- **Mobile-Responsive** — `max-w-7xl` container, mobile-first layout, touch-friendly target sizes
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | [Next.js 16](https://nextjs.org) (App Router) |
+| Language | TypeScript 5 |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com) |
+| Animations | [Framer Motion 12](https://www.framer.com/motion/) (`LazyMotion` + `domAnimation`) |
+| Icons | [Lucide React](https://lucide.dev) |
+| Fonts | Syncopate (headings) & Space Mono (body) via `next/font/google` |
+| Package Manager | [pnpm](https://pnpm.io) |
+
+---
+
+## 🎨 Design System
+
+| Token | Value |
+|---|---|
+| Background | `#0a0a0a` (near-black) |
+| Primary Accent | `#FF5500` (orange) |
+| Secondary Accent | `#00E5FF` (cyan) |
+| Text | `#FFFFFF` / `neutral-400` |
+| Heading font | Syncopate (variable `--font-syncopate`) |
+| Body font | Space Mono (variable `--font-space-mono`) |
+
+---
+
+## 💰 Membership Pricing
+
+| Plan | Price | Billed As |
+|---|---|---|
+| 1 Month | ₹3,500 / month | Monthly |
+| 3 Months | ₹2,000 / month | ₹6,000 total |
+| 6 Months | ₹1,500 / month | ₹9,000 total |
+| 1 Year ⭐ | ₹1,000 / month | ₹12,000 total |
+
+All plans include full gym access, strength equipment, cardio zone, and locker room.
+
+---
+
+## 📍 Studio Locations
+
+- **Manikonda** — 2nd Floor, Opp Pure O Natural, Road No 8, Alkapur Colony, Puppalaguda, Hyderabad – 500089
+- **Kukatpally** — Plot No. 59, L9, 1st Floor, Opp HDFC Bank, 9th Phase Housing Board Colony, Hyderabad – 500072
+- **Pragathi Nagar** — 2nd Floor, Mithila Square, 202, Mithila Nagar, Hyderabad – 500050
+
+📞 **+91 91330 26279**
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org) ≥ 18
+- [pnpm](https://pnpm.io) ≥ 9 (`npm install -g pnpm`)
+
+### Install & Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Start the development server
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Other commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm build    # Production build
+pnpm start    # Start production server
+pnpm lint     # Run ESLint
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+gymbeat/
+├── public/
+│   └── image.png          # GYMBEAT logo
+├── src/
+│   └── app/
+│       ├── layout.tsx     # Root layout, fonts, metadata
+│       ├── page.tsx       # Single-page landing (all sections)
+│       └── globals.css    # Tailwind base styles
+├── next.config.ts
+├── postcss.config.mjs
+├── tailwind.config (via postcss)
+└── package.json
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🌐 Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The easiest way to deploy is via [Vercel](https://vercel.com):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
+
+Or connect your GitHub repository to Vercel for automatic deployments on every push.
+
+See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for other hosting options.
